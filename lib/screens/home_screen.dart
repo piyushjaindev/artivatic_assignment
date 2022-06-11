@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../blocs/home_data_cubit.dart';
 import '../models/data_row_model.dart';
+import '../utils/custom_search_delegate.dart';
 import 'data_row_listview.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -32,7 +33,20 @@ class HomeScreen extends StatelessWidget {
     required BuildContext context,
   }) {
     return Scaffold(
-      appBar: AppBar(title: Text(title)),
+      appBar: AppBar(
+        title: Text(title),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              showSearch(
+                context: context,
+                delegate: CustomSearchDelegate(),
+              );
+            },
+          ),
+        ],
+      ),
       body: RefreshIndicator(
           onRefresh: () => context.read<HomeDataCubit>().getHomeData(),
           child: DataRowListView(rows: rows)),
